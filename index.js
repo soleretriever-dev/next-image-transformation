@@ -40,9 +40,9 @@ async function resize(url) {
     const width = url.searchParams.get("width") || 0;
     const height = url.searchParams.get("height") || 0;
     const quality = url.searchParams.get("quality") || 75;
-    const fit = url.searchParams.get("fit") || "clip";
+
     try {
-        const url = `${imgproxyUrl}/${preset}/resize:${fit}:${width}:${height}/q:${quality}/plain/${src}`
+        const url = `${imgproxyUrl}/${preset}/resize:fill:${width}:${height}/q:${quality}/plain/${src}`
         const image = await fetch(url, {
             headers: {
                 "Accept": "image/avif,image/webp,image/apng,*/*",
