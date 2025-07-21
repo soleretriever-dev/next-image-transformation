@@ -1,4 +1,5 @@
 const version = "0.0.3"
+
 let allowedDomains = process?.env?.ALLOWED_REMOTE_DOMAINS?.split(",") || ["*"];
 let imgproxyUrl = process?.env?.IMGPROXY_URL || "http://imgproxy:8080";
 if (process.env.NODE_ENV === "development") {
@@ -39,7 +40,7 @@ async function resize(url) {
     const width = url.searchParams.get("width") || 0;
     const height = url.searchParams.get("height") || 0;
     const quality = url.searchParams.get("quality") || 75;
-    const fit = url.searchParams.get("fit") || "fill";
+    const fit = url.searchParams.get("fit") || "clip";
     try {
         const url = `${imgproxyUrl}/${preset}/resize:${fit}:${width}:${height}/q:${quality}/plain/${src}`
         const image = await fetch(url, {
