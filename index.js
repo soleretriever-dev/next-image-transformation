@@ -6,7 +6,6 @@ if (process.env.NODE_ENV === "development") {
     imgproxyUrl = "http://localhost:8888"
 }
 allowedDomains = allowedDomains.map(d => d.trim());
-
 Bun.serve({
     port: 3000,
     async fetch(req) {
@@ -18,7 +17,6 @@ Bun.serve({
                 },
             });
         }
-
         if (url.pathname === "/health") {
             return new Response("OK");
         };
@@ -26,7 +24,6 @@ Bun.serve({
         return Response.redirect("https://github.com/coollabsio/next-image-transformation", 302);
     }
 });
-
 async function resize(url) {
     const preset = "pr:sharp"
     const src = url.pathname.split("/").slice(2).join("/");
@@ -43,8 +40,9 @@ async function resize(url) {
     const width = url.searchParams.get("width") || 0;
     const height = url.searchParams.get("height") || 0;
     const quality = url.searchParams.get("quality") || 75;
+    const fit = url.searchParams.get("fit") || "clip";
     try {
-        const url = `${imgproxyUrl}/${preset}/resize:fill:${width}:${height}/q:${quality}/plain/${src}`
+        const url = `${imgproxyUrl}/${preset}/resize:${fit}:${width}:${height}/q:${quality}/plain/${src}`
         const image = await fetch(url, {
             headers: {
                 "Accept": "image/avif,image/webp,image/apng,*/*",
